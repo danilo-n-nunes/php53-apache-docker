@@ -1,0 +1,21 @@
+# Usar uma imagem PHP 5.3 já existente no Docker Hub
+FROM corbinu/php5.3
+
+# Instalar o Apache
+RUN apt-get update && \
+    apt-get install -y apache2 libapache2-mod-php5
+
+# Ativar o mod_rewrite do Apache
+RUN a2enmod rewrite
+
+# Copiar os arquivos do projeto para o diretório root do Apache
+COPY ./src /var/www/html
+
+# Definir permissões para os arquivos do Apache
+RUN chown -R www-data:www-data /var/www/html
+
+# Expor a porta 80
+EXPOSE 80
+
+# Iniciar o Apache no foreground
+CMD ["apachectl", "-D", "FOREGROUND"]

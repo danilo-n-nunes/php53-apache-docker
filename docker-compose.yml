@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: funesbom_apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html/funesbom
+    environment:
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data
+    restart: always
+    networks:
+      - codeigniter_network
+
+networks:
+  codeigniter_network:
+    driver: bridge
